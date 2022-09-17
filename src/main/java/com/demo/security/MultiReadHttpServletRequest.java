@@ -20,7 +20,8 @@ public class MultiReadHttpServletRequest extends HttpServletRequestWrapper {
 
 		super(request);
 
-		if (((request.getContentType() == null) || (request.getContentType().toLowerCase().indexOf("multipart/form-data") <= -1))) {
+		if (((request.getContentType() == null)
+				|| (request.getContentType().toLowerCase().indexOf("multipart/form-data") <= -1))) {
 
 			InputStream requestInputStream = request.getInputStream();
 			this.cachedBody = StreamUtils.copyToByteArray(requestInputStream);

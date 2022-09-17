@@ -38,7 +38,8 @@ public class ApiLogger implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 
-		ArrayList<String> urlWithoutHeaders = new ArrayList<>(Arrays.asList("/Auth/login", "/Auth/register"));
+		ArrayList<String> urlWithoutHeaders = new ArrayList<>(
+				Arrays.asList("/Auth/login", "/Auth/register", "/upload-file"));
 
 		final String requestUrl = request.getRequestURI();
 		System.out.println("url ---" + requestUrl);

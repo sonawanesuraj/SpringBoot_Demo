@@ -4,6 +4,6 @@ import com.demo.entity.FileUploadEntity;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface FileRepository extends JpaRepository<FileUploadEntity, Integer> {
+public interface FileUploadRepository extends JpaRepository<FileUploadEntity, Integer> {
 
 }

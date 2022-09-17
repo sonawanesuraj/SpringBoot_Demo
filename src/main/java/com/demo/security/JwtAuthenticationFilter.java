@@ -35,6 +35,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		// get token
 
 		final String requestToken = request.getHeader("Authorization");
+
 		MultiReadHttpServletRequest multiReadRequest = new MultiReadHttpServletRequest(request);
 
 		// Bearer
