@@ -1,6 +1,8 @@
 
 package com.demo.security;
 
+import com.demo.utility.ApiUrls;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,46 +22,42 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class SecurityConfig  extends WebSecurityConfigurerAdapter {
-   @Autowired
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+	@Autowired
 	private UserDetailsService userDetailsService;
-   
-   @Autowired
-   private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-   
-   @Autowired
-   private JwtAuthenticationFilter jwtAuthenticationFilter;
 
-	protected void configure (HttpSecurity http)throws Exception{
-		http.csrf().disable().authorizeHttpRequests()
-		.antMatchers("/Auth/login","/Auth/register").permitAll()
-		.anyRequest().authenticated().and().exceptionHandling()
-		.authenticationEntryPoint(this.jwtAuthenticationEntryPoint)
-		.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-		
+	@Autowired
+	private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
+	@Autowired
+	private JwtAuthenticationFilter jwtAuthenticationFilter;
+
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http.csrf().disable().authorizeHttpRequests().antMatchers("/Auth/login", "/Auth/register").permitAll()
+				.antMatchers(ApiUrls.SWAGGER_URLS).permitAll().anyRequest().authenticated().and().exceptionHandling()
+				.authenticationEntryPoint(this.jwtAuthenticationEntryPoint).and().sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
 		http.addFilterBefore(this.jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 	}
-	
-	
-	
+
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(this.userDetailsService).passwordEncoder(passwordEncoder());
 	}
 
-
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
-		
+
 	}
-	
-    @Bean
+
+	@Bean
 	@Override
 	public AuthenticationManager authenticationManagerBean() throws Exception {
-    	
+
 		return super.authenticationManagerBean();
-	}	
-	
+	}
 
 }

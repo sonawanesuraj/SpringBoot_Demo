@@ -17,29 +17,26 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class RolePermissionController {
-	
-	@Autowired 
+
+	@Autowired
 	private RolePermissionService rolePermissionService;
-	
+
 	@PostMapping("/assignPermission")
-	public ResponseEntity<?> addPermissionToRole(@RequestBody RolePermissionDto dto){
+	public ResponseEntity<?> addPermissionToRole(@RequestBody RolePermissionDto dto) {
 		try {
-		this.rolePermissionService.addPermissionToRole(dto);
-		return ResponseEntity.ok("Permission Assign Successfully");
-	}catch(Exception e)
-		{
-		return new ResponseEntity<>(new ErrorResponceDto("User Alrready Exist","insert another permission"),HttpStatus.OK);
+			this.rolePermissionService.addPermissionToRole(dto);
+			return ResponseEntity.ok("Permission Assign Successfully");
+		} catch (Exception e) {
+			return new ResponseEntity<>(new ErrorResponceDto("User Alrready Exist", "insert another permission"),
+					HttpStatus.OK);
 		}
-	
+
 	}
-	
+
 	@GetMapping("/roleAndPermission")
-	public List<RolePermissionEntity> getAllRolePermission(){
+	public List<RolePermissionEntity> getAllRolePermission() {
 		return this.rolePermissionService.getAllRolePermission();
-		
+
 	}
-	
-	
-	
 
 }
